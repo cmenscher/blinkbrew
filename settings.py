@@ -15,7 +15,7 @@ class Blink_Brew_Settings:
 	    self.spacebrew_config = {
 	        "config": {
 	            "name": self.name,
-	            "description": "This service will listen for a Hex color value or a named color pattern for a blink1 and will display accordingly.",
+	            "description": "This service subscribes to a series of events to make the ThingM blink(1) boogie.",
 	            "subscribe": {
 	                "messages": [
 	                    {
