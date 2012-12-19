@@ -48,6 +48,7 @@ class Blink_Brew:
         action = app.settings.named_actions[name]
 
         if name == "color": 
+            print "FLASHING COLOR: %s" % value
             if value[0] == "#":
                 color = util.hexToRGB(value)
 
@@ -55,10 +56,10 @@ class Blink_Brew:
             led_on = ",".join(str(v) for v in color)
             args_on = [blink_cmd, app.settings.named_actions[name], led_on]
         elif name == "disco":
+            print "EVERYBODY DANCE!"
             times = int(value)
             args_on = [blink_cmd, app.settings.named_actions[name], "1"]
 
-        print "BLINKING %d TIMES..." % int(times)
         for i in range(times):
             subprocess.call(args_on)
             time.sleep(app.settings.default_sleep)
