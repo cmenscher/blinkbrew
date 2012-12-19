@@ -14,7 +14,7 @@ class Blink_Brew:
     def on_message(self, ws, message):
         msg = json.loads(message)
         data = msg["message"]
-        self.blink(data["value"])
+        self.blink(name=data["name"], value=data["value"], times=self.settings.default_times)
 
     def on_error(self, ws, error):
         print error
@@ -30,7 +30,7 @@ class Blink_Brew:
             time.sleep(1)
         thread.start_new_thread(run, ())
 
-    def blink(self, color, times=1):
+    def blink(self, name="color", value="#FF0000", times=1):
         # Using the blink1-tool commandline prog for now
         # I'd prefer to use something smaller/native like the
         # blink1raw tool in blink1/commandline but it won't
@@ -38,31 +38,32 @@ class Blink_Brew:
         # the blink1 URL API but that no worky either. *sigh*
         blink_cmd = self.settings.blink_cmd
         
-        led_off = "0,0,0";
-        
-        if color[0] == "#":
-            color = util.hexToRGB(color);
-
-        #rgb option for the blink1-tool command
-        rgb = "--rgb";
-
         #first, turn off the blink1
         print "TURNING OFF..."
-        #off = "%s%s" % (opt, led_off)
-        #print "%s%s" % (blink_cmd, off)
-        args_off = [blink_cmd, rgb, led_off]
-
+        led_off = "0,0,0"
+        args_off = [blink_cmd, "--rgb", led_off]
         subprocess.call(args_off)
 
-        #create the pattern
-        led_on = ",".join(str(v) for v in color)
-        #on = "%s%s" % (opt, led_on)
-        args_on = [blink_cmd, rgb, led_on]
-        print "BLINKING %d TIMES..." % times
+        # now determine the action from the published name
+        action = app.settings.named_actions[name]
+
+        if name == "color": 
+            if value[0] == "#":
+                color = util.hexToRGB(value)
+
+            #create the pattern
+            led_on = ",".join(str(v) for v in color)
+            args_on = [blink_cmd, app.settings.named_actions[name], led_on]
+        elif name == "disco":
+            times = int(value)
+            args_on = [blink_cmd, app.settings.named_actions[name], "1"]
+
+        print "BLINKING %d TIMES..." % int(times)
         for i in range(times):
             subprocess.call(args_on)
-            time.sleep(1)
+            time.sleep(app.settings.default_sleep)
             subprocess.call(args_off);
+            time.sleep(app.settings.default_sleep)
 
 
 if __name__ == "__main__":

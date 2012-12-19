@@ -3,6 +3,12 @@ class Blink_Brew_Settings:
 	    self.name = "blinkbrew"
 	    self.show_log = True
 	    self.blink_cmd = "/usr/local/bin/blink1-tool"
+	    self.named_actions = {
+	    	"color": "--rgb",
+	    	"disco": "--random",
+	    }
+	    self.default_times = 3
+	    self.default_sleep = 0.5
 	    self.spacebrew_server = "ws://localhost"
 	    self.spacebrew_server_port = 9000
 	    self.spacebrew_name_message = {"name": [{"name": self.name}]}
@@ -14,7 +20,7 @@ class Blink_Brew_Settings:
 	                "messages": [
 	                    {
 	                        "name": "disco",
-	                        "type": "boolean"
+	                        "type": "number"
 	                    },
 	                    {
 	                        "name": "color",

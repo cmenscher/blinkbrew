@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Blinkbrew button</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/reset.css" type="text/css" media="screen" charset="utf-8" />
+		<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+		<!-- basic libraries -->
+        <script type="text/javascript" src="js/jquery/jq.js"></script>
+<script type="text/javascript">
+$(document).ready( function() {
+	setup();
+});
+
+function gup( name ) {
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return "";
+  else
+    return results[1];
+}
+
+var index = 0;
+
+var name = "blink1 testing button";
+var server = gup('server') || 'localhost';
+
+
+var myConfig = {
+"config": {
+ "name": name,
+ "description": "Example blink1 button.",
+ "publish": {
+   "messages": [
+     {
+       "name": "color",
+       "type": "string",
+       "default": "#FF0000"
+     },
+     {
+       "name": "disco",
+       "type": "number",
+       "default": 5
+     }
+   ]
+ }
+}
+};
+
+var ws = new WebSocket("ws://"+server+":9000");
+    ws.onopen = function() {
+        console.log("WebSockets connection opened");
+        var nameMsg = { "name": [
+        	{"name": name}
+       	]};
+   		ws.send(JSON.stringify(nameMsg));
+
+      // send my config
+      ws.send(JSON.stringify(myConfig));
+    }
+
+
+    ws.onclose = function() {
+        console.log("WebSockets connection closed");
+    }
+
+
+//-------------------------------------------------------
+function setup (){
+	document.getElementById("color").addEventListener("mousedown",colorMouseDown);
+
+  document.getElementById("disco").addEventListener("mousedown",discoMouseDown);
+}
+
+
+//-------------------------------------------------------
+function colorMouseDown (evt){
+	//ecs.sendMessage("packet", 255);
+	console.log("Sending color message...");
+
+	var message = {message:
+       {
+           clientName:name,
+           name:"color",
+           type:"string",
+           value:"#0000FF"
+       }
+   	};
+
+   	//console.log(message);
+   	ws.send(JSON.stringify(message));
+}
+
+function discoMouseDown (evt){
+  //ecs.sendMessage("packet", 255);
+  console.log("Sending disco message...");
+
+  var message = {message:
+       {
+           clientName:name,
+           name:"disco",
+           type:"number",
+           value:"5"
+       }
+    };
+
+    //console.log(message);
+    ws.send(JSON.stringify(message));
+}
+
+</script>
+		<!-- MAIN -->
+	</head>
+	<body>
+
+		<img id="color" src="imgs/blink1.jpg"/> COLOR<br />
+    <img id="disco" src="imgs/blink1.jpg"/> DISCO<br />
+   </body>
+</html>
