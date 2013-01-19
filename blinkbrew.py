@@ -30,7 +30,7 @@ class Blink_Brew:
             time.sleep(1)
         thread.start_new_thread(run, ())
 
-    def blink(self, name="color", value="#FF0000", times=1):
+    def blink(self, name="flash", value="#FF0000", times=1):
         # Using the blink1-tool commandline prog for now
         # I'd prefer to use something smaller/native like the
         # blink1raw tool in blink1/commandline but it won't
@@ -40,14 +40,13 @@ class Blink_Brew:
         
         #first, turn off the blink1
         print "TURNING OFF..."
-        led_off = "0,0,0"
-        args_off = [blink_cmd, "--rgb", led_off]
+        args_off = [blink_cmd, "--off"]
         subprocess.call(args_off)
 
         # now determine the action from the published name
         action = app.settings.named_actions[name]
 
-        if name == "color": 
+        if name == "flash": 
             print "FLASHING COLOR: %s" % value
             if value[0] == "#":
                 color = util.hexToRGB(value)
@@ -56,9 +55,13 @@ class Blink_Brew:
             led_on = ",".join(str(v) for v in color)
             args_on = [blink_cmd, app.settings.named_actions[name], led_on]
         elif name == "disco":
-            print "EVERYBODY DANCE!"
-            times = int(value)
-            args_on = [blink_cmd, app.settings.named_actions[name], "1"]
+            print "EVERYBODY DANCE! (times=%s)" % value
+            times = 1 #disco should only run once
+            fade = "-m 50" #speed up the color fade to 50ms
+            interval = "-t 100" #speed up the time between colors to 100ms (default=300ms)
+            args_on = [blink_cmd, app.settings.named_actions[name], value, interval, fade]
+            print args_on
+
 
         for i in range(times):
             subprocess.call(args_on)

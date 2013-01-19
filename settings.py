@@ -4,7 +4,7 @@ class Blink_Brew_Settings:
 	    self.show_log = True
 	    self.blink_cmd = "/usr/local/bin/blink1-tool"
 	    self.named_actions = {
-	    	"color": "--rgb",
+	    	"flash": "--rgb",
 	    	"disco": "--random",
 	    }
 	    self.default_times = 3
@@ -23,7 +23,7 @@ class Blink_Brew_Settings:
 	                        "type": "number"
 	                    },
 	                    {
-	                        "name": "color",
+	                        "name": "flash",
 	                        "type": "string"
 	                    }
 	                ]

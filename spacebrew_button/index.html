@@ -36,7 +36,7 @@ var myConfig = {
  "publish": {
    "messages": [
      {
-       "name": "color",
+       "name": "flash",
        "type": "string",
        "default": "#FF0000"
      },
@@ -84,9 +84,9 @@ function colorMouseDown (evt){
 	var message = {message:
        {
            clientName:name,
-           name:"color",
+           name:"flash",
            type:"string",
-           value:"#0000FF"
+           value:"#FFFFFF"
        }
    	};
 
@@ -103,7 +103,7 @@ function discoMouseDown (evt){
            clientName:name,
            name:"disco",
            type:"number",
-           value:"5"
+           value:"50"
        }
     };
 
@@ -116,7 +116,7 @@ function discoMouseDown (evt){
 	</head>
 	<body>
 
-		<img id="color" src="imgs/blink1.jpg"/> COLOR<br />
+		<img id="color" src="imgs/blink1.jpg"/> FLASH<br />
     <img id="disco" src="imgs/blink1.jpg"/> DISCO<br />
    </body>
 </html>
