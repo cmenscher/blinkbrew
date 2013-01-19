@@ -3,8 +3,9 @@ class Blink_Brew_Settings:
 	    self.name = "blinkbrew"
 	    self.show_log = True
 	    self.blink_cmd = "/usr/local/bin/blink1-tool"
-	    self.named_actions = {
+	    self.named_actions = {  #map msg types to CLI switches
 	    	"flash": "--rgb",
+	    	"color": "--rgb",
 	    	"disco": "--random",
 	    }
 	    self.default_times = 3
@@ -19,13 +20,17 @@ class Blink_Brew_Settings:
 	            "subscribe": {
 	                "messages": [
 	                    {
+	                        "name": "flash",
+	                        "type": "string"
+ 	                    },
+	                    {
+	                        "name": "color",
+	                        "type": "string"
+	                    },
+	                    {
 	                        "name": "disco",
 	                        "type": "number"
 	                    },
-	                    {
-	                        "name": "flash",
-	                        "type": "string"
-	                    }
 	                ]
 	            }
 	        }
