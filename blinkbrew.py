@@ -14,7 +14,6 @@ class Blink_Brew:
     def on_message(self, ws, message):
         msg = json.loads(message)
         data = msg["message"]
-        print "\n\n%s\n\n" % data
         self.blink(name=data["name"], value=data["value"], times=self.settings.default_times)
 
     def on_error(self, ws, error):
@@ -32,7 +31,6 @@ class Blink_Brew:
         thread.start_new_thread(run, ())
 
     def blink(self, name="flash", value="#FF0000", times=1, turn_off=True):
-        print "BLINKING BLINKING BLINKING"
         # Using the blink1-tool commandline prog for now
         # I'd prefer to use something smaller/native like the
         # blink1raw tool in blink1/commandline but it won't
@@ -42,8 +40,6 @@ class Blink_Brew:
         
         #determine the action from the published name
         action = app.settings.named_actions[name]
-
-        print "NAME=%s" % name
 
         if name == "flash": 
             print "FLASHING COLOR: %s" % value
