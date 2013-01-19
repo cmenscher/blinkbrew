@@ -63,7 +63,7 @@ class Blink_Brew:
             args_on = [blink_cmd, app.settings.named_actions[name], led_on]
 
         elif name == "disco":
-            print "EVERYBODY DANCE! (times=%s)" % value
+            print "EVERYBODY DANCE!" % value
             times = 1 #disco should only run once
             fade = "-m 50" #speed up the color fade to 50ms
             interval = "-t 100" #speed up the time between colors to 100ms (default=300ms)
