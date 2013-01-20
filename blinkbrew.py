@@ -37,7 +37,7 @@ class Blink_Brew:
         # compile for me.  In the end it may be best to use
         # the blink1 URL API but that no worky either. *sigh*
         blink_cmd = self.settings.blink_cmd
-        
+
         #determine the action from the published name
         action = app.settings.named_actions[name]
 
@@ -63,7 +63,7 @@ class Blink_Brew:
             args_on = [blink_cmd, app.settings.named_actions[name], led_on]
 
         elif name == "disco":
-            print "EVERYBODY DANCE!" % value
+            print "EVERYBODY DANCE!"
             times = 1 #disco should only run once
             fade = "-m 50" #speed up the color fade to 50ms
             interval = "-t 100" #speed up the time between colors to 100ms (default=300ms)
